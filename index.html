@@ -1,0 +1,93 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="cal">
+        <div class="output" id="output">0</div>
+        <button class="child op" onclick="clearScreen(('AC'))">AC</button>
+        <button class="child op" onclick="chooseOperator(('+/-'))">+/=</button>
+        <button class="child op" onclick="appendNumber(('.'))">.</button>
+        <button class="child op" onclick="deleteScreen()">DEL</button>
+        <button class="child" onclick="appendNumber(('3'))">3</button>
+        <button class="child" onclick="appendNumber(('4'))">4</button>
+        <button class="child" onclick="appendNumber(('5'))">5</button>
+        <button class="child" onclick="appendNumber(('6'))">6</button>
+        <button class="child" onclick="appendNumber(('7'))">7</button>
+        <button class="child" onclick="appendNumber(('8'))">8</button>
+        <button class="child" onclick="appendNumber(('9'))">9</button>
+        <button class="child" onclick="appendNumber(('0'))">0</button>
+        <button class="child" onclick="chooseOperator(('*'))">*</button>
+        <button class="child" onclick="chooseOperator(('+'))">+</button>
+        <button class="child" onclick="appendNumber(('1'))">1</button>
+        <button class="child" onclick="appendNumber(('00'))">00</button>
+        <button class="child " onclick="chooseOperator(('%'))">%</button>
+        <button class="child" onclick="appendNumber(('2'))">2</button>
+        <button class="equalto child op" onclick="calculate(('='))">=</button>
+
+    </div>
+
+
+    <script>
+        let currentInput = "";
+        let operator = '';
+        let firstOperand = null;
+        const output = document.getElementById('output');
+
+        function appendNumber(number) {
+            currentInput += number;
+            output.innerText = currentInput;
+        }
+        function deleteScreen() {
+            currentInput = ""
+
+        }
+
+        function chooseOperator(op) {
+            if (currentInput === '') return;
+            if (firstOperand === null) {
+                firstOperand = parseFloat(currentInput);
+            } else if (operator) {
+                firstOperand = operate(firstOperand, parseFloat(currentInput), operator);
+                output.innerText = firstOperand;
+            }
+            operator = op;
+            currentInput = '';
+        }
+
+        function calculate() {
+            if (firstOperand === null || currentInput === '') return;
+            firstOperand = operate(firstOperand, parseFloat(currentInput), operator);
+            output.innerText = firstOperand;
+            currentInput = '';
+            operator = '';
+        }
+
+        function operate(a, b, op) {
+            switch (op) {
+                case '+': return a + b;
+                case '-': return a - b;
+                case '*': return a * b;
+                case '/': return a / b;
+                case '%': return (a * b) / 100;
+                default: return b;
+            }
+        }
+
+        function clearScreen() {
+            currentInput = '';
+            operator = '';
+            firstOperand = null;
+            output.innerText = 0;
+        }
+    </script>
+</body>
+
+</html>
